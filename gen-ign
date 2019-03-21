@@ -1,0 +1,1 @@
+ct -platform=vagrant-virtualbox -strict -in-file cl.conf -out-file config.ign
