@@ -32,6 +32,7 @@ $vm_gui = false
 $vm_memory = 1024
 $vm_cpus = 1
 $vb_cpuexecutioncap = 100
+$vb_paravirtprovider = "default"
 $shared_folders = {}
 $forwarded_ports = {}
 
@@ -134,10 +135,11 @@ Vagrant.configure("2") do |config|
         vb.memory = vm_memory
         vb.cpus = vm_cpus
         vb.customize ["modifyvm", :id, "--cpuexecutioncap", "#{$vb_cpuexecutioncap}"]
+        vb.customize ["modifyvm", :id, "--paravirtprovider", "#{$vb_paravirtprovider}"]
         config.ignition.config_obj = vb
       end
 
-      ip = "172.17.8.#{i+100}"
+      ip = $vm_ipaddress.nil? ? "172.17.8.#{i+100}" : $vm_ipaddress
       config.vm.network :private_network, ip: ip
       # This tells Ignition what the IP for eth1 (the host-only adapter) should be
       config.ignition.ip = ip
